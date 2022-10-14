@@ -1,8 +1,9 @@
 package com.yube;
 
+import akka.actor.ActorSystem;
 import com.yube.models.SortingStatistics;
+import com.yube.sorters.ActorBasedMergeSorter;
 import com.yube.sorters.ClassicMergeSorter;
-import com.yube.sorters.ParallelMergeSorter;
 import com.yube.sorters.Sorter;
 
 import java.util.*;
@@ -11,36 +12,49 @@ public class Main {
 
     private static final Scanner scanner = new Scanner(System.in);
     private static final int MAX_RUNS_COUNT = 999;
-    private static final int MAX_PARALLELISM_LEVEL = 999;
+    private static final int MAX_SPLITS_COUNT = 9;
+    private static final ActorSystem ACTOR_SYSTEM = ActorSystem.create("sorter-system");
 
     public static void main(String[] args) {
         while (true) {
             int arraySize = Integer.parseInt(read("Enter array size:", "\\d{1,9}"));
             int runsCount = Integer.parseInt(read("Enter runs count:", "\\d{1,3}"));
-            int parallelismLevel = Integer.parseInt(read("Enter parallelism level:", "\\d{1,3}"));
+            int splitsCount = Integer.parseInt(read("Enter splits count:", "\\d"));
             if (arraySize < 0 || runsCount < 1 || runsCount > MAX_RUNS_COUNT ||
-                    parallelismLevel < 1 || parallelismLevel > MAX_PARALLELISM_LEVEL) {
+                    splitsCount < 1 || splitsCount > MAX_SPLITS_COUNT) {
                 System.err.println("Incorrect argument values passed, try again.");
             } else {
-                compareClassicAndParallelMergeSortingAlgorithms(arraySize, runsCount, parallelismLevel);
+                warmUpJvm(3000000, 20, 4);
+                compareClassicAndActorBasedMergeSortingAlgorithms(arraySize, runsCount, splitsCount);
             }
             String value = read("Continue? (Y/N):", "[YN]");
-            if (value.equals("N")) return;
+            if (value.equals("N")) {
+                ACTOR_SYSTEM.terminate();
+                return;
+            }
         }
         // For test purposes:
-//         compareClassicAndParallelMergeSortingAlgorithms(3000000, 10, 4);
-//         compareClassicAndParallelMergeSortingAlgorithms(3000000, 10, 8);
-//         compareClassicAndParallelMergeSortingAlgorithms(3000000, 10, 12);
-//         compareClassicAndParallelMergeSortingAlgorithms(3000000, 10, 16);
-//         compareClassicAndParallelMergeSortingAlgorithms(3000000, 10, 20);
+        //  warmUpJvm(3000000, 20, 4);
+        //  compareClassicAndActorBasedMergeSortingAlgorithms(3000000, 10, 3);
+        //  compareClassicAndActorBasedMergeSortingAlgorithms(3000000, 10, 4);
+        //  compareClassicAndActorBasedMergeSortingAlgorithms(3000000, 10, 5);
+        //  compareClassicAndActorBasedMergeSortingAlgorithms(3000000, 10, 6);
+        //  ACTOR_SYSTEM.terminate();
     }
 
-    public static void compareClassicAndParallelMergeSortingAlgorithms(int arraySize, int runsCount, int parallelismLevel) {
+    public static void warmUpJvm(int arraySize, int runsCount, int splitsCount) {
+        System.out.println("Warming up JVM...");
+        getSortingStatistics(new ClassicMergeSorter(), arraySize, runsCount);
+        getSortingStatistics(new ActorBasedMergeSorter(splitsCount, ACTOR_SYSTEM), arraySize, runsCount);
+        System.out.println("JVM warming finished");
+    }
+
+    public static void compareClassicAndActorBasedMergeSortingAlgorithms(int arraySize, int runsCount, int splitsCount) {
         System.out.println("========== Comparison of classic and parallel merge sorting algorithms ==========");
         SortingStatistics classicMergeSortingStatistics = getSortingStatistics(new ClassicMergeSorter(), arraySize, runsCount);
         System.out.println(classicMergeSortingStatistics);
         System.out.println();
-        SortingStatistics parallelMergeSortingStatistics = getSortingStatistics(new ParallelMergeSorter(parallelismLevel), arraySize, runsCount);
+        SortingStatistics parallelMergeSortingStatistics = getSortingStatistics(new ActorBasedMergeSorter(splitsCount, ACTOR_SYSTEM), arraySize, runsCount);
         System.out.println(parallelMergeSortingStatistics);
         System.out.println("=================================================================================");
     }
