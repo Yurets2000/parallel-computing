@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Lab1" />
         <module name="Lab2" />
+        <module name="Lab4" />
         <module name="Lab3-1" />
         <module name="Lab3-2" />
       </profile>
@@ -18,6 +19,7 @@
       <module name="Lab2" target="8" />
       <module name="Lab3-1" target="8" />
       <module name="Lab3-2" target="8" />
+      <module name="Lab4" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
