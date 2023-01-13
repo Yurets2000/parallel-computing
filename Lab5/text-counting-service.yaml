@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: text-counting-service
+  labels:
+    app: text-counting-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: text-counting-service
+  template:
+    metadata:
+      labels:
+        app: text-counting-service
+    spec:
+      containers:
+        - name: text-counting-service
+          image: yurets2000/text-counting-service:latest
+          ports:
+            - containerPort: 8084
+          resources:
+            requests:
+              memory: "1024Mi"
+            limits:
+              memory: "2048Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: text-counting-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: text-counting-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8084

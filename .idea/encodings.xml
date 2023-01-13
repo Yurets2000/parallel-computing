@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/../TppLab5/client-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../TppLab5/client-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../TppLab5/text-counting-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../TppLab5/text-counting-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../TppLab5/token-sorting-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../TppLab5/token-sorting-service/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

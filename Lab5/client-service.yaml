@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-service
+  labels:
+    app: client-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client-service
+  template:
+    metadata:
+      labels:
+        app: client-service
+    spec:
+      containers:
+        - name: client-service
+          image: yurets2000/client-service:latest
+          ports:
+            - containerPort: 8083
+          env:
+            - name: TEXT_COUNTING_SERVICE_URL
+              value: http://text-counting-service
+            - name: TOKEN_SORTING_SERVICE_URL
+              value: http://token-sorting-service
+          resources:
+            requests:
+              memory: "1024Mi"
+            limits:
+              memory: "2048Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: client-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8083

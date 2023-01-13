@@ -7,6 +7,9 @@
       <module fileurl="file://$PROJECT_DIR$/Lab3-1/Lab3-1.iml" filepath="$PROJECT_DIR$/Lab3-1/Lab3-1.iml" />
       <module fileurl="file://$PROJECT_DIR$/Lab3-2/Lab3-2.iml" filepath="$PROJECT_DIR$/Lab3-2/Lab3-2.iml" />
       <module fileurl="file://$PROJECT_DIR$/Lab4/Lab4.iml" filepath="$PROJECT_DIR$/Lab4/Lab4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../TppLab5/client-service/client-service.iml" filepath="$PROJECT_DIR$/../TppLab5/client-service/client-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../TppLab5/text-counting-service/text-counting-service.iml" filepath="$PROJECT_DIR$/../TppLab5/text-counting-service/text-counting-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../TppLab5/token-sorting-service/token-sorting-service.iml" filepath="$PROJECT_DIR$/../TppLab5/token-sorting-service/token-sorting-service.iml" />
     </modules>
   </component>
 </project>

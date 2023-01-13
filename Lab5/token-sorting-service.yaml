@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: token-sorting-service
+  labels:
+    app: token-sorting-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: token-sorting-service
+  template:
+    metadata:
+      labels:
+        app: token-sorting-service
+    spec:
+      containers:
+        - name: token-sorting-service
+          image: yurets2000/token-sorting-service:latest
+          ports:
+            - containerPort: 8085
+          resources:
+            requests:
+              memory: "512Mi"
+            limits:
+              memory: "1024Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: token-sorting-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: token-sorting-service
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8085
