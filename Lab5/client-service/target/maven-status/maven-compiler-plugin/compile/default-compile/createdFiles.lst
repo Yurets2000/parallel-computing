@@ -1,8 +1,0 @@
-com\yube\utils\FileUtils.class
-com\yube\controller\TaskController.class
-com\yube\utils\FileUtils$1.class
-com\yube\ClientServiceApplication.class
-com\yube\configuration\SpringFoxConfig.class
-com\yube\model\TxtFile.class
-com\yube\model\ZipFile.class
-com\yube\service\TaskService.class
